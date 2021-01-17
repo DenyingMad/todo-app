@@ -24,8 +24,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void createTask(Task task) {
-        tasksRepository.saveAndFlush(task);
+    public Task createTask(Task task) {
+        return tasksRepository.saveAndFlush(task);
     }
 
     @Override

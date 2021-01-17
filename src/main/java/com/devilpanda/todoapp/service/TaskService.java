@@ -12,7 +12,7 @@ public interface TaskService {
 
     Task getTaskById(Long id);
 
-    void createTask(Task task);
+    Task createTask(Task task);
 
     boolean updateTask(Task task);
 }
