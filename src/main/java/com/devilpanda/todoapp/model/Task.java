@@ -1,12 +1,17 @@
 package com.devilpanda.todoapp.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "TASK")
-public class Task {
+public @Getter
+@Setter
+class Task {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
@@ -15,19 +20,16 @@ public class Task {
     @Column(name = "task_name")
     private String taskName;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "description")
+    private String taskDescription;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(name = "start_time")
+    private LocalDateTime startTime;
 
-    public String getTaskName() {
-        return taskName;
-    }
+    @Column(name = "require_time")
+    private int requireTime;
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
+    @ManyToOne
+    @JoinColumn(name = "task_list_id", nullable = false)
+    private TaskList taskList;
 }
