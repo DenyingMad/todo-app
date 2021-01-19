@@ -1,5 +1,6 @@
 package com.devilpanda.todoapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -30,6 +31,7 @@ class Task {
     private int requireTime;
 
     @ManyToOne
-    @JoinColumn(name = "task_list_id", nullable = false)
+    @JoinColumn(name = "task_list_id")
+    @JsonBackReference
     private TaskList taskList;
 }

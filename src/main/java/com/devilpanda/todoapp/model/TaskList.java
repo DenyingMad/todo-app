@@ -1,6 +1,6 @@
 package com.devilpanda.todoapp.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -27,10 +27,13 @@ class TaskList {
     @Column(name = "owner_id")
     private long ownerId;
 
-    @ManyToMany(mappedBy = "taskLists")
-    @JsonBackReference
-    private Set<User> users;
+//    todo fix managed/back reference error
+
+//    @ManyToMany(mappedBy = "taskLists")
+//    @JsonBackReference
+//    private Set<User> users;
 
     @OneToMany(mappedBy = "taskList")
+    @JsonManagedReference
     private Set<Task> tasks;
 }

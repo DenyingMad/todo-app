@@ -1,17 +1,24 @@
 package com.devilpanda.todoapp.serviceimpl;
 
 import com.devilpanda.todoapp.model.Task;
+import com.devilpanda.todoapp.model.TaskList;
+import com.devilpanda.todoapp.repository.TaskListRepository;
 import com.devilpanda.todoapp.repository.TasksRepository;
 import com.devilpanda.todoapp.service.TaskService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
 public class TaskServiceImpl implements TaskService {
-    @Autowired
-    private TasksRepository tasksRepository;
+    private final TasksRepository tasksRepository;
+    private final TaskListRepository taskListRepository;
+
+    public TaskServiceImpl(TasksRepository tasksRepository, TaskListRepository taskListRepository) {
+        this.tasksRepository = tasksRepository;
+        this.taskListRepository = taskListRepository;
+    }
 
     @Override
     public List<Task> getAllTasks() {
@@ -24,7 +31,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task createTask(Task task) {
+    public Task createTask(Task task, Long taskListId) {
+        TaskList taskList = taskListRepository.findById(taskListId).orElseThrow(() -> new EntityNotFoundException("No such task list"));
+        task.setTaskList(taskList);
         return tasksRepository.saveAndFlush(task);
     }
 
