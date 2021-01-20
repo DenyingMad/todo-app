@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -23,7 +24,11 @@ class User {
     private Long id;
 
     @Column(name = "login")
+    @NaturalId
     private String login;
+
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "hash_password")
     private String hashPassword;

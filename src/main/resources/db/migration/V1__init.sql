@@ -2,6 +2,7 @@ CREATE TABLE USERS
 (
     id            bigserial    not null,
     login         varchar(255) not null,
+    email         varchar(100) not null,
     hash_password varchar      not null,
     PRIMARY KEY (id)
 );

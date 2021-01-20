@@ -8,12 +8,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
-
 @Service
 public class UserDetailService implements UserDetailsService {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserDetailService(UserService userService) {
         this.userService = userService;
@@ -22,11 +20,8 @@ public class UserDetailService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        try {
-            User user = userService.findByLogin(userName);
-            return UserPrinciple.build(user);
-        } catch (EntityNotFoundException e) {
-            throw new UsernameNotFoundException("User not found...");
-        }
+        User user = userService.findByLogin(userName).orElseThrow(() ->
+                new UsernameNotFoundException(String.format("User %s not found...", userName)));
+        return UserPrinciple.build(user);
     }
 }
